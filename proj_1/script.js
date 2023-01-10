@@ -8,8 +8,25 @@ const getDate = (imgData) => {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  })
+  });
   return niceDate;
+};
+
+const buildImage = (imgData) => {
+  const img = `<img
+  srcset="
+    ${imgData.urls.full} ${imgData.width}w,
+    ${imgData.urls.regular} 1080w,
+    ${imgData.urls.small} 400w
+  "
+  sizes="(max-width: 450px) 400px, (max-width: 800) 1080px"
+  src="${imgData.urls.regular}"
+  width="${imgData.width}"
+  height="${imgData.height}"
+  alt="${imgData.description}"
+  loading="lazy"
+/>`;
+  return img;
 };
 
 const Card = (data) => {
@@ -17,19 +34,7 @@ const Card = (data) => {
 
   const markup = `
      <figure class="image">
-       <img
-         srcset="
-           ${imgData.urls.full} ${imgData.width}w,
-           ${imgData.urls.regular} 1080w,
-           ${imgData.urls.small} 400w
-         "
-         sizes="(max-width: 450px) 400px, (max-width: 800) 1080px"
-         src="${imgData.urls.regular}"
-         width="${imgData.width}"
-         height="${imgData.height}"
-         alt="${imgData.description}"
-         loading="lazy"
-       />
+       ${buildImage(imgData)}
        <figcaption class="image__caption">
          <h3 class="image__title">${imgData.description}</h3>
          <div class="image__meta">
